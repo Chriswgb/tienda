@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- vista form del cai -->
+	<record id="cai_form_view" model="ir.ui.view">
+		<field name="name">cai_form_view</field>
+		<field name="model">cai.cai</field>
+		<field name="arch" type="xml">
+		<form string="CAI">
+			<header>
+				<button name="setProcess" type="object" string="En proceso" class="oe_highlight" attrs="{'invisible':[('state','in',('progress','done'))]}"/>
+				<button name="setDraft" type="object" string="Volver a borrador" class="oe_highlight" groups="sar.group_borrador_cai_user" attrs="{'invisible':[('state','in',('draft','done'))]}"/>
+				<field name="state" widget="statusbar"/>
+			</header>
+			<sheet>
+				<separator style="color:#009C96;font-style:bold;" string="SAR"/>
+				<group>
+					<group>
+						<field name="name" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field name="min_number" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field name="description"/>
+						<field name="porcentaje" widget="progressbar"/>
+					</group>
+					<group>
+						<field name="tipo" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field name="max_number" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field  name="expiration_date" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+					</group>
+				</group>
+				<separator style="color:#009C96;font-style:bold;" string="Secuencia"/>
+				<group>
+					<group>
+						<field name="prefijo" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field name="valor_inicial" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field name="sequence_id" readonly="1" options="{'no_create':True, 'no_open':True}"/>
+					</group>
+					<group>
+						<field name="size_secuencia" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+						<field name="valor_final" required="1" attrs="{'readonly':[('state','in',('progress','done'))]}"/>
+					</group>
+				</group>
+			</sheet>
+			<div class="oe_chatter">                             
+				<field name="message_ids" widget="mail_thread"/>
+			</div>
+			</form>
+		</field>
+	</record>
+
+    <!-- vista tree de cai -->
+	<record id="cai_tree_view" model="ir.ui.view">
+		<field name="name">cai_tree_view</field>
+		<field name="model">cai.cai</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="description"/>
+				<field name="min_number"/>
+				<field name="max_number"/>
+				<field name="tipo" widget="badge" decoration-success="tipo == 'ventas'" decoration-primary="tipo == 'nota_credito'" decoration-info="tipo == 'nota_debito'" decoration-warning="tipo == 'retencion'" decoration-muted="tipo == 'guia_remision'"/>
+				<field name="expiration_date"/>
+				<field name="state" widget="badge" decoration-success="state == 'progress'" decoration-danger="state == 'done'"/>
+			</tree>
+		</field>
+	</record>
+	
+    <record id="cai_kanban_view" model="ir.ui.view">
+		<field name="name">cai.kanban.view</field>
+		<field name="model">cai.cai</field>
+		<field name="arch" type="xml">
+			<kanban class="o_kanban_mobile" sample="1" js_class="account_bills_kanban">
+				<field name="name"/>
+				<field name="min_number"/>
+				<field name="max_number"/>
+				<field name="expiration_date"/>
+				<field name="description"/>
+				<templates>
+					<t t-name="kanban-box">
+						<div t-attf-class="oe_kanban_global_click">
+							<div class="row mb4">
+								<div class="col-12 o_kanban_record_headings">
+									<strong>
+										<span>
+											<field name="name"/>
+										</span>
+									</strong>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-8">
+									<span style="font-size: xx-small">
+										<field name="min_number"/> - <field name="max_number"/> 
+									</span>
+								</div>
+								<div class="col-4 text-right font-size: small">
+									<strong><i class="fa fa-clock-o" aria-label="Fecha de expiración" role="img" title="Fecha de expiración"/> <t t-esc="record.expiration_date.value"/></strong>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<span><field name="tipo" widget="badge" decoration-success="tipo == 'ventas'" decoration-primary="tipo == 'nota_credito'" decoration-info="tipo == 'nota_debito'" decoration-warning="tipo == 'retencion'" decoration-muted="tipo == 'guia_remision'"/></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-8">
+									<span style="font-size: x-small"><field name="description"/></span>
+								</div>
+								<div class="col-4">
+									<span class="float-right">
+										<field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'progress': 'success'}}"/>
+									</span>
+								</div>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="action_cai" model="ir.actions.act_window">
+		<field name="name">CAI</field>
+		<field name="res_model">cai.cai</field>
+		<field name="view_mode">kanban,tree,form</field>
+	</record>
+	
+</odoo>

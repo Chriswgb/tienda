@@ -1,0 +1,7 @@
+model_id:id,group_id:id,id,name,perm_read,perm_write,perm_create,perm_unlink
+model_cai_cai,group_facturacion_manager,access_cai_cai_manager,cai.cai,1,1,1,1
+model_cai_cai,group_facturacion_user,access_cai_cai_user,cai.cai,1,0,0,0
+model_account_retention,base.group_partner_manager,access_account_retention_manager,account.retention,1,1,1,1
+model_account_retention,base.group_user,access_account_retention_user,account.retention,1,0,0,0
+model_account_move_retention,base.group_partner_manager,access_account_move_retention_manager,account.move.retention,1,1,1,1
+model_account_move_retention,base.group_user,access_account_move_retention_user,account.move.retention,1,0,0,0

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem 
+		id="other_reports_menu" 
+		name="Otros Reportes" 
+		sequence="21"
+		parent="account_accountant.menu_accounting"
+	/>
+
+	<menuitem 
+		id="hn_profit_per_sale_menu" 
+		name="Reporte de ganancias por venta" 
+		sequence="1"
+        action="action_hn_profit_per_sale"
+		parent="other_reports_menu"
+	/>
+
+	<menuitem 
+		id="hn_purchasing_inventory_menu" 
+		name="Reporte de inventario compras" 
+		sequence="2"
+        action="action_hn_purchasing_inventory"
+		parent="other_reports_menu"
+	/>
+</odoo>

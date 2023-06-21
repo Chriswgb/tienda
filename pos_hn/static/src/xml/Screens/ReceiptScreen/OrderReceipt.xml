@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+    	<xpath expr="//div[@class='pos-receipt-contact']" position="replace"> -->
+
+            <div class="pos-receipt-contact">
+                
+                <h2 class="pos-receipt-center-align">
+                    <t t-esc="receipt.company.name" />
+                </h2>
+
+                <t t-if="receipt.street">
+                    <div><t t-esc="receipt.street"/>, <t t-esc="receipt.street2"/></div>
+                </t>
+                <t t-if="receipt.city">
+                    <div>Local #1, <t t-esc="receipt.city"/>, <t t-esc="receipt.state_id"/></div>
+                </t>
+                <t t-if="receipt.rtn">
+                    <div>R.T.N:  <t t-esc="receipt.rtn"/></div>
+                </t>
+                
+                <br/>
+
+                <t t-if="receipt.nombre_comercial">
+                    <div>Nombre Comercial: <t t-esc="receipt.nombre_comercial"/></div>
+                </t>
+                <t t-if="receipt.whatsapp">
+                    <div>Whatsapp: <t t-esc="receipt.whatsapp"/></div>
+                </t>
+                <t t-if="receipt.company.email">
+                    <div>E-Mail: <t t-esc="receipt.company.email"/></div>
+                </t>
+
+                <t t-if="receipt.cai_number">
+                    <hr/>
+
+                    <h2 class="pos-receipt-center-align">
+                    FACTURA
+                    </h2>
+                   
+                    <hr/>
+
+                    <h2 class="pos-receipt-center-align">
+                        <t t-esc="receipt.invoice_number"/>
+                    </h2>
+
+                    <div>CAI:</div>
+                    <div><t t-esc="receipt.cai_number" /></div>
+                    <div>Vencimiento: <t t-esc="receipt.cai_expires_shot"/></div>
+                    <div>Rango Autorizado:</div>
+                    <div>Del: <t t-esc="receipt.min_cai"/></div>
+                    <div>Al: <t t-esc="receipt.max_cai"/></div>
+                </t>
+                
+                <hr/>
+
+                <t t-if="receipt.client">
+                    <div style="text-align:left;">Cliente: <t t-if="receipt.client.customer_name"><t t-esc="receipt.client.customer_name"/></t><t t-else=""><t t-esc="receipt.client.name"/></t></div>
+                    <div style="text-align:left;">R.T.N: <t t-if="receipt.client.customer_rtn"><t t-esc="receipt.client.customer_rtn"/></t><t t-else=""><t t-esc="receipt.rtn2"/></t></div>
+                </t>
+                
+                <br/>
+                
+                <div style="text-align:left;">
+                    Fecha y Hora: 
+                    <t t-if="receipt.date.localestring">
+                    <span>
+                        <t t-esc="receipt.date.localestring" />
+                    </span>
+                    </t>
+                    <t t-else="">
+                        <span><t t-esc="receipt.date.validation_date" /></span>
+                    </t>
+                </div>
+                <div style="text-align:left;">Cajero: <t t-esc="receipt.cashier" /></div>
+
+                <t t-set="total_products" t-value="0"/>
+                <t t-foreach="receipt.orderlines" t-as="line" t-key="line.id">
+                    <t t-set="total_products" t-value="total_products + 1"/>
+                </t>
+
+                <br/>
+                
+                <div style="text-align:left;">Cantidad Art:<t t-esc="total_products" /></div>
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@class='orderlines']" position="after">
+            <hr/>
+            <br/>
+
+            <t t-if="receipt.exonerado">
+                <div>
+                    Exonerado:
+                    <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.exonerado)"/></span>
+                </div>
+            </t>
+
+            <t t-if="!receipt.exonerado">
+                <div>
+                    Exonerado:
+                    <span class="price_display pos-receipt-right-align">L. 0.00</span>
+                </div>
+            </t>
+
+            <t t-if="receipt.excento">
+                <div>
+                    Exento:
+                    <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.excento)"/></span>
+                </div>
+            </t>
+
+            <t t-if="!receipt.excento">
+                <div>
+                    Exento:
+                    <span class="price_display pos-receipt-right-align">L. 0.00</span>
+                </div>
+            </t>
+
+            <t t-if="receipt.gravado">
+                <div>
+                    Gravado 15%:
+                    <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.gravado)"/></span>
+                </div>
+            </t>
+
+            <t t-if="!receipt.gravado">
+                <div>
+                    Gravado 15%:
+                    <span class="price_display pos-receipt-right-align">L. 0.00</span>
+                </div>
+            </t>
+
+            <t t-if="receipt.gravado18">
+                <div>
+                    Gravado 18%:
+                    <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.gravado18)"/></span>   
+                </div>
+            </t>
+
+            <t t-if="!receipt.gravado18">
+                <div>
+                    Gravado 18%:
+                    <span class="price_display pos-receipt-right-align">L. 0.00</span>   
+                </div>
+            </t>
+           
+            
+            <hr/>
+
+            <div>
+                Subtotal:
+                <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.amount_untaxed)"/></span>
+            </div>
+            <div>
+                Desc y Reb:
+                <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.total_discount)"/></span>
+            </div>
+            
+            <t t-if="receipt.amount_tax">
+                <div>
+                    Impuesto 15%:
+                    <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.amount_tax)"/></span>
+                </div>
+            </t>
+
+            <t t-if="!receipt.amount_tax">
+                <div>
+                    Impuesto 15%:
+                    <span class="price_display pos-receipt-right-align">L. 0.00</span>
+                </div>
+            </t>
+            
+            <t t-if="receipt.impuesto18">
+                <div>
+                    Impuesto 18%:
+                    <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.impuesto18)"/></span>
+                </div>
+            </t>
+
+            <t t-if="!receipt.impuesto18">
+                <div>
+                    Impuesto 18%:
+                    <span class="price_display pos-receipt-right-align">L. 0.00</span>
+                </div>
+            </t>
+            <div>
+                Total:
+                <span class="price_display pos-receipt-right-align">L. <t t-esc="env.pos.format_currency_no_symbol(receipt.total_rounded)"/></span>
+            </div>
+            <hr/>
+            <div>SON: <t t-esc="receipt.amount_total_text"/></div>
+            <hr/>
+            <div class="pos-receipt-center-align">ORIGINAL-CLIENTE</div>
+            <div class="pos-receipt-center-align">COPIA OBLIGATORIA TRIBUTARIO EMISOR</div>
+
+        </xpath>
+
+        <!-- Subtotal -->
+
+        <xpath expr="//t[@t-if='!isTaxIncluded']" position="replace">
+            <div></div>
+        </xpath>
+
+
+        <!-- Total -->
+        
+        <xpath expr="//div[@class='pos-receipt']/div[@class='pos-receipt-right-align']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='pos-receipt-amount'][1]" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-if='receipt.total_rounded != receipt.total_with_tax']" position="replace">
+            <div></div>
+        </xpath>
+
+        <!-- Payment Lines -->
+
+        <xpath expr="//t[@t-key='line.cid']/div" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='pos-receipt-amount receipt-change']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+
+        <!-- Extra Payment Info -->
+
+        <xpath expr="//t[@t-if='receipt.total_discount'][1]/div" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-if='isTaxIncluded']" position="replace">
+            <div></div>
+        </xpath>
+
+        <xpath expr="//div[@class='before-footer']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <!-- Footer -->
+
+        <xpath expr="//div[@t-if='receipt.footer_html']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@t-if='!receipt.footer_html and receipt.footer']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='after-footer']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='pos-receipt-order-data']" position="attributes">
+            <attribute name="style">display:none</attribute>
+        </xpath>
+        
+    </t>
+</templates>

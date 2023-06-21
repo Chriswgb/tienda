@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="EstadoCajaButton" owl="1">
+        <div class="control-button">
+            <i class="fa fa-money" role="img" aria-label="Estado Caja" title="Estado Caja"/>
+            Estado Caja
+        </div>
+    </t>
+
+</templates> 

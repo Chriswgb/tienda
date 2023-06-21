@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_account_move_retention" model="ir.ui.view">
+            <field name="name">view_account_move_retention</field>
+            <field name="model">account.move.retention</field>
+            <field name="arch" type="xml">
+                <form string="Reverse Journal Entry">
+                    <group>
+                        <group>
+                            <field name="retention_id" options="{'no_create': true, 'no_open': true}"/>
+                        </group>
+                        <group>
+                            <field name="percentage" widget="percentage"/>
+                            <field name="amount_retention" force_save="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string='Crear' name="retention_moves" type="object" class="btn-primary" data-hotkey="q"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_view_account_move_retention" model="ir.actions.act_window">
+            <field name="name">Retención</field>
+            <field name="res_model">account.move.retention</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_account_move_retention"/>
+            <field name="target">new</field>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="binding_model_id" ref="account.model_account_move" />
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t  t-name="ClientDetailsEditInherit" t-inherit="point_of_sale.ClientDetailsEdit" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//section[@class='client-details edit']/div[@class='client-details-box clearfix']" position="attributes">
+                <attribute name="hidden">1</attribute>
+        </xpath>
+
+        <xpath expr="//section[@class='client-details edit']" position="attributes">       
+            <attribute name="style">display: grid;grid-template-columns: 1fr;justify-items:center; align-items: center;</attribute>
+        </xpath>
+
+        <xpath expr="//section[@class='client-details edit']/div[@class='client-picture']" position="attributes">
+            <attribute name="style">padding:20px; border-radius: 100%;</attribute>
+        </xpath>
+
+        <xpath expr="//section[@class='client-details edit']/div[@class='client-details-box clearfix']" position="attributes">
+            <attribute name="style">display:none;</attribute>
+        </xpath>
+
+        <xpath expr="//section[@class='client-details edit']/input[@name='name']" position="attributes">
+            <attribute name="style">margin: 5px 6px;width: 80%</attribute>
+        </xpath>
+
+        <xpath expr="//section[@class='client-details edit']/input[@name='name']" position="after">
+            <input name="customer_name" t-on-change="captureChange" t-att-value="props.partner.customer_name" class="detail client-name" placeholder="Nombre del cliente" style="margin: 5px 6px;width: 80%"/>
+            <input name="customer_rtn" t-on-change="captureChange" t-att-value="props.partner.customer_rtn" class="detail client-name" placeholder="RTN del cliente" style="margin: 5px 6px;width: 80%"/>
+            <input name="rtn" t-on-change="captureChange" t-att-value="props.partner.rtn" class="detail client-name" placeholder="RTN" style="margin: 5px 6px;width: 80%"/>
+            <input name="email" t-on-change="captureChange" t-att-value="props.partner.email" class="detail client-name" placeholder="Correo electrónico" style="margin: 5px 6px;width: 80%"/>
+            <input name="phone" t-on-change="captureChange" t-att-value="props.partner.phone" class="detail client-name" placeholder="Teléfono" style="margin: 5px 6px;width: 80%"/>
+            <div t-if="env.pos.pricelists.length gt 1" class="client-detail" style="display:flex;flex-direction:column;width:80%">
+                <span class="label" style="text-align:left;font-size:16px;width:100%">Pricelist</span>
+                <select class="detail needsclick" name="property_product_pricelist" style="width: 100%;padding:4px;font-size:24px"
+                        t-on-change="captureChange">
+                    <t t-foreach="env.pos.pricelists" t-as="pricelist"
+                        t-key="pricelist.id">
+                        <option t-att-value="pricelist.id"
+                                t-att-selected="props.partner.property_product_pricelist ? (pricelist.id === props.partner.property_product_pricelist[0] ? true : false) : false">
+                            <t t-esc="pricelist.display_name" />
+                        </option>
+                    </t>
+                </select>
+            </div>
+            <textarea 
+                name="address" 
+                t-on-change="captureChange" 
+                t-att-value="props.partner.address" 
+                class="detail client-name" 
+                placeholder="Dirección"
+                style="
+                    width: 78%;
+                    font-size: 24px;
+                    line-height: normal;
+                    margin: 5px 6px
+                ">
+            </textarea>
+        </xpath>
+
+        <!-- otra manera de ocultar los campos -->
+        
+        <!-- <xpath expr="//div[@class='client-details-box clearfix']/div[@class='client-details-left']" position="attributes">
+            <attribute name="style">display:none</attribute> -->
+            <!-- <div class="client-detail">
+                <span class="label">RTN</span>
+                <input name="rtn"  class="detail rtn" />
+            </div> -->
+        <!-- </xpath> -->
+
+        <!-- <xpath expr="//div[@class='client-details-box clearfix']/div[@class='client-details-right']" position="attributes">
+            <attribute name="style">display:none</attribute> -->
+            <!-- <div class="client-detail">
+                <span class="label">RTN</span>
+                <input name="rtn"  class="detail rtn" />
+            </div> -->
+        <!-- </xpath> -->
+
+    </t>
+</templates>

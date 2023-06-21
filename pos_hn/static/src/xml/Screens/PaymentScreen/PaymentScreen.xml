@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PaymentScreen" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//div[@class='payment-controls']/div[1]" position="attributes">
+            <attribute name="style">display:none</attribute>            
+        </xpath>
+        
+    </t>
+
+    <t t-name="PaymentScreenPaymentLines" t-inherit="point_of_sale.PaymentScreenPaymentLines" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('payment-amount')]" position="before">
+            <t t-if="env.pos.config.card_information">
+        		<t t-if="line.payment_method.card_information">
+					<div class="bank-button"
+						t-on-click="trigger('card-info', { cid: line.cid })"
+						aria-label="Card" title="Card">
+						<i class="fa fa-credit-card" />
+					</div>
+        		</t>
+        	</t>
+			<t t-if="env.pos.config.cheque_information">
+        		<t t-if="line.payment_method.cheque_information">
+					<div class="bank-button"
+						t-on-click="trigger('cheque-info', { cid: line.cid })"
+						aria-label="Cheque" title="Cheque">
+						<i class="fa fa-bank" />
+					</div>
+        		</t>
+        	</t>
+        </xpath>
+    </t>
+
+	<!-- <t t-name="OrderReceiptInherit" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+		<xpath expr="//div[hasclass('receipt-change')]" position="after">
+			<br/>
+			<div>
+				Cheque No.
+				<span t-esc="env.pos.get_order().cheque_number" class="pos-receipt-right-align"/>
+			</div>
+		</xpath>
+	</t> -->
+
+</templates>

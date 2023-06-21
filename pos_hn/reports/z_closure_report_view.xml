@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_z_closure">
+        <t t-call="web.html_container">
+            <t t-call="web.basic_layout">
+                <head>
+                    <style>
+                        caption{
+                            font-size: 22px;
+                            font-weight: bold;
+                            caption-side: top;
+                            text-align: center;
+                            color: black;
+                        }
+                    </style>
+                </head>
+                <div class="page">
+                    <table class="table table-sm o_main_table" style="width:100%;">
+                        <tr style="width:100%;">
+                            <td style="width:50%">
+                                <table>
+                                    <tr align="left">
+                                        <img src='/web/binary/company_logo' alt="Logo"/>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="width:75%;margin-top:2%">
+                                <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:x-large; font-weight: bold;">Cierre Z</p>
+                                <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Creado por: </strong><t t-esc="user_name"/></p>
+                                <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Fecha de cierre: </strong><t t-esc="date"/></p> 
+                            </td>
+                        </tr>
+    
+                    </table>
+
+                    <table class="table table-sm o_main_table" style="width:100%;">
+                        <caption>Ventas y Devoluciones</caption>
+
+                        <thead style="background-color: #6AA050">
+                            <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;"> 
+                                <th name="th_num_doc" class="text-left" style="border: 1px solid gray;"><span>Num Doc</span></th>
+                                <th name="th_fecha_doc" class="text-left" style="border: 1px solid gray;"><span>Fecha Doc</span></th>
+                                <th name="th_id_cliente" class="text-left" style="border: 1px solid gray;"><span>RTN Cliente</span></th>
+                                <th name="th_nomb_cliente" class="text-left" style="border: 1px solid gray;"><span>Nomb Cliente</span></th>
+                                <th name="th_tipo_doc" class="text-left" style="border: 1px solid gray;"><span>Tipo Doc</span></th>
+                                <th name="th_total_doc" class="text-left" style="border: 1px solid gray;"><span>Total Doc</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-set="total_ventas" t-value="0"/>
+                            <t t-set="total_devoluciones" t-value="0"/>
+                            <t t-set="total" t-value="0"/>
+                            
+                            <t t-foreach="invoices" t-as="i">
+                                <t t-if="len(invoices) > 0">
+                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                        <td class="text-left" style="border: 1px solid gray;">
+                                            <t t-esc="i['invoice_no']"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid gray;">
+                                            <t t-esc="i['invoice_date']"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid gray;">
+                                            <t t-esc="i['client_rtn']"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid gray;">
+                                            <t t-esc="i['client_name']"/>
+                                        </td>
+                                        <td class="text-left" style="border: 1px solid gray;">
+                                            <t t-if="i['move_type'] == 'out_invoice'">
+                                                <span>Venta</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span>Devolución</span>
+                                            </t>
+                                        </td>
+                                        <td class="text-right" style="border: 1px solid gray;">
+                                            L <t t-esc="'{:20,.2f}'.format(i['amount_total'])"/>
+                                        </td>
+                                    </tr>
+
+                                    <t t-if="i['move_type'] == 'out_invoice'" t-set="total_ventas" t-value="total_ventas + i['amount_total']"/>
+                                    <t t-if="i['move_type'] == 'out_refund'" t-set="total_devoluciones" t-value="total_devoluciones + i['amount_total']"/>
+                                    <t t-set="total" t-value="total_ventas + total_devoluciones"/>
+                                </t>
+                                <t t-else="">
+                                    <tr>
+                                        <td>No hay registros</td>
+                                    </tr>
+                                </t>
+                            </t>
+                            
+                            <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                <td colspan="2" class="text-right" style="border: 1px solid gray;"><strong>Total facturas: </strong>L <span t-esc="'{:20,.2f}'.format(total_ventas)"/></td>
+                                <td colspan="2" class="text-right" style="border: 1px solid gray;"><strong>Total devoluciones: </strong>L <span t-esc="'{:20,.2f}'.format(total_devoluciones)"/></td>
+                                <td colspan="2" class="text-right" style="border: 1px solid gray;"><strong>Total ventas: </strong>L <span t-esc="'{:20,.2f}'.format(total)"/></td>
+                            </tr> 
+                        </tbody>
+                    </table>   
+    
+                    <table class="table table-sm o_main_table" style="width:100%;">
+                        <caption>Pagos</caption>
+
+                        <thead style="background-color: #6AA050">
+                            <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;"> 
+                                <th name="th_fecha_pago" class="text-left" style="border: 1px solid gray;"><span>Fecha</span></th>
+                                <th name="th_orden" class="text-left" style="border: 1px solid gray;"><span>Ordén</span></th>
+                                <th name="th_metodo_pago" class="text-left" style="border: 1px solid gray;"><span>Método</span></th>
+                                <th name="th_importe" class="text-left" style="border: 1px solid gray;"><span>Importe</span></th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-set="total_importe" t-value="0"/>
+
+                            <t t-foreach="payments" t-as="p">
+                                <t t-if="len(payments) > 0">
+                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                        <td class="text-left" style="border: 1px solid gray;">
+                                        <t t-esc="p['payment_date']"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid gray;">
+                                        <t t-esc="p['order']"/>
+                                    </td>
+                                    <td class="text-left" style="border: 1px solid gray;">
+                                        <t t-esc="p['method']"/>
+                                    </td>
+                                    <td class="text-right" style="border: 1px solid gray;">
+                                       L <t t-esc="'{:20,.2f}'.format(p['amount'] )"/>
+                                    </td>
+                                </tr>
+                                <t t-set="total_importe" t-value="total_importe + p['amount']"/>
+                                </t>
+                                <t t-else="">
+                                    <tr>
+                                        <td>No hay registros</td>
+                                    </tr>
+                                </t>
+                            </t>
+
+                            <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                <td colspan="4" class="text-right" style="border: 1px solid gray;"><strong>Total Importe: </strong>L <span t-esc="'{:20,.2f}'.format(total_importe)"/></td>
+                            </tr> 
+                        </tbody>
+                    </table>
+
+                    <table width="100%">
+                        <td style="padding-right: 5px">
+                            <table style="width:100%;">
+                                <caption>Total por método de pago</caption>
+        
+                                <tr style="width:100%">
+                                    <td style="width:25%">
+                                        <table class="table table-sm o_main_table" style="width:100%;">
+                                            <thead style="background-color: #6AA050 ">
+                                                <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;">
+                                                    <th name="th_tipo_recibo" class="text-left" style="border: 1px solid gray;"><span>Tipo</span></th>
+                                                    <th name="th_monto" class="text-right" style="border: 1px solid gray;"><span>Monto</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="invoice_tbody">
+                                                <t t-set="total_methods" t-value="0"/>
+
+                                                <t t-foreach="methods" t-as="m">
+                                                    <t t-if="len(methods) > 0">
+                                                        <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                                            <td class="text-left" style="border: 1px solid gray;">
+                                                                <t t-esc="m['method']"/>
+                                                            </td>
+                                                            <td class="text-right" style="border: 1px solid gray;">
+                                                                L <t t-esc="'{:20,.2f}'.format(m['amount'])"/>
+                                                            </td>
+                                                        </tr>
+                                                        <t t-set="total_methods" t-value="total_methods + m['amount'] "/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <tr>
+                                                            <td>No hay registros</td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+
+                                                <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                                    <td class="text-left" style="border: 1px solid gray;">
+                                                        <strong>Gran Total</strong>
+                                                    </td>
+                                                    <td class="text-right" style="border: 1px solid gray;">
+                                                       L <t t-esc="'{:20,.2f}'.format(total_methods)"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td style="padding-left: 5px">
+                            <table style="width:100%;">
+                                <caption>Total por punto de venta</caption>
+        
+                                <tr style="width:100%">
+                                    <td style="width:25%">
+                                        <table class="table table-sm o_main_table" style="width:100%;">
+                                            <thead style="background-color: #6AA050 ">
+                                                <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;">
+                                                    <th class="text-left" style="border: 1px solid gray;"><span>Punto</span></th>
+                                                    <th class="text-right" style="border: 1px solid gray;"><span>Total</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="invoice_tbody">
+                                                <t t-set="total_points" t-value="0"/>
+        
+                                                <t t-foreach="points" t-as="p">
+                                                    <t t-if="len(points) > 0">
+                                                        <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                                            <td class="text-left" style="border: 1px solid gray;">
+                                                                <t t-esc="p['point']"/>
+                                                            </td>
+                                                            <td class="text-right" style="border: 1px solid gray;">
+                                                                L <t t-esc="'{:20,.2f}'.format(p['total'])"/>
+                                                            </td>
+                                                        </tr>
+                                                        <t t-set="total_points" t-value="total_points + p['total'] "/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <tr>
+                                                            <td>No hay registros</td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+
+                                                <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                                    <td class="text-left" style="border: 1px solid gray;">
+                                                        <strong>Gran Total</strong>
+                                                    </td>
+                                                    <td class="text-right" style="border: 1px solid gray;">
+                                                        L <t t-esc="'{:20,.2f}'.format(total_points)"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </table>
+
+                    <br />
+                    <br />
+
+                    <table width="100%" align="center">
+                        <tr>
+                            <td class="text-center" style="padding: 0px 100px">
+                                <p style="margin:0px; text-align: center; border-top: solid 1px;">Oficial de Caja</p>
+                            </td>
+                            <td class="text-center" style="padding: 0px 100px">
+                                <p style="margin:0px; text-align: center; border-top: solid 1px;">Jefe de Tienda</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

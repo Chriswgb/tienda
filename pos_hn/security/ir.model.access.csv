@@ -1,0 +1,13 @@
+model_id:id,group_id:id,id,name,perm_read,perm_write,perm_create,perm_unlink
+
+model_corte_caja_detail_wizard,base.group_partner_manager,access_corte_caja_detail_wizard_manager,corte.caja.detail.wizard,1,1,1,1
+model_corte_caja_detail_wizard,base.group_user,access_corte_caja_detail_wizard_user,corte.caja.detail.wizard,1,0,0,0
+
+model_corte_caja_diario_cuenta,base.group_partner_manager,access_corte_caja_diario_cuenta_manager,corte.caja.diario.cuenta,1,1,1,1
+model_corte_caja_diario_cuenta,base.group_user,access_corte_caja_diario_cuenta_user,corte.caja.diario.cuenta,1,0,0,0
+
+model_corte_caja_pagos,base.group_partner_manager,access_corte_caja_pagos_manager,corte.caja.pagos,1,1,1,1
+model_corte_caja_pagos,base.group_user,access_corte_caja_pagos_user,corte.caja.pagos,1,0,0,0
+
+model_z_closure,base.group_partner_manager,access_z_closure_manager, z.closure,1,1,1,1
+model_z_closure,base.group_user,access_z_closure_user, z.closure,1,0,0,0

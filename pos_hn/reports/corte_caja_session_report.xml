@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_corte_caja_session">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <head>
+                            <style>
+                                caption{
+                                    font-size: 22px;
+                                    font-weight: bold;
+                                    caption-side: top;
+                                    text-align: center;
+                                    color: black;
+                                }
+                            </style>
+                        </head>
+                        <div class="page">
+                            <table class="table table-sm o_main_table" style="width:100%;">
+                                <tr style="width:100%;">
+                                    <td style="width:50%">
+                                        <table>
+                                            <tr align="left">
+                                                <img 
+                                                    t-att-src="image_data_uri(o.company_id.logo)"
+                                                    style="width:75%;margin-top:2%"
+                                                />
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td style="width:75%;margin-top:2%">
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:x-large; font-weight: bold;">Corte de caja</p>
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Abierta por: </strong><span t-field="o.user_id.name"/></p>
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Punto de Venta: </strong><span t-field="o.config_id.name"/></p> 
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Asiento de diario: </strong><span t-field="o.move_id.name"/></p> 
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Fecha de apertura: </strong><span t-field="o.start_at"/></p> 
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Fecha de cierre: </strong><span t-field="o.stop_at"/></p> 
+                                        <p class="text-left" style="margin:0; font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;"><strong>Estado de la sesión: </strong><span t-field="o.state"/></p> 
+                                        <t t-if="o.is_listo == False and o.state == 'closed'">
+                                            <span>
+                                                <p class="p-3 mb-2 bg-warning text-dark">Asegurese de generar el reporte para poder ver la información necesaria</p>
+                                            </span>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                                
+                            <table class="table table-sm o_main_table" style="width:100%;margin-top:3%;">
+                                <caption>Ventas y Devoluciones</caption>
+
+                                <thead style="background-color: #6AA050">
+                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;"> 
+                                        <th name="th_num_doc" class="text-left" style="border: 1px solid gray;"><span>Num Doc</span></th>
+                                        <th name="th_fecha_doc" class="text-left" style="border: 1px solid gray;"><span>Fecha Doc</span></th>
+                                        <th name="th_id_cliente" class="text-left" style="border: 1px solid gray;"><span>Rtn Cliente</span></th>
+                                        <th name="th_nomb_cliente" class="text-left" style="border: 1px solid gray;"><span>Nomb Cliente</span></th>
+                                        <th name="th_tipo_doc" class="text-left" style="border: 1px solid gray;"><span>Tipo Doc</span></th>
+                                        <th name="th_total_doc" class="text-left" style="border: 1px solid gray;"><span>Total Doc</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="invoice_tbody">
+                                    <t t-set="total_ventas" t-value="0"/>
+                                    <t t-set="total_devoluciones" t-value="0"/>
+                                    <t t-set="total" t-value="0"/>
+                                    
+                                    <t t-foreach="o.corte_caja_detail_wizard_ids" t-as="l">
+                                        <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="l.no_documento"/>
+                                            </td>
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="l.fecha_doc"/>
+                                            </td>
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="l.rtn"/>
+                                            </td>
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="l.cliente"/>
+                                            </td>
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <t t-if="l.tipo_doc == 'out_invoice'">
+                                                    <span>Venta</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>Devolución</span>
+                                                </t>
+                                            </td>
+                                            <td class="text-right" style="border: 1px solid gray;">
+                                                <span t-field="l.montototal"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="l.tipo_doc == 'out_invoice'" t-set="total_ventas" t-value="total_ventas + l.montototal"/>
+                                        <t t-if="l.tipo_doc == 'out_refund'" t-set="total_devoluciones" t-value="l.montototal - l.monto_devolucion"/>
+                                        <t t-set="total" t-value="total_ventas + total_devoluciones"/>
+
+                                    </t>
+                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                        <td colspan="2" class="text-right" style="border: 1px solid gray;"><strong>Total Factura: </strong> <span t-esc="'{:20,.2f}'.format(total_ventas)"/></td>
+                                        <td colspan="2" class="text-right" style="border: 1px solid gray;"><strong>Total Devolución : </strong> <span t-esc="'{:20,.2f}'.format(total_devoluciones)"/></td>
+                                        <td colspan="2" class="text-right" style="border: 1px solid gray;"><strong>Total Venta : </strong> <span t-esc="'{:20,.2f}'.format(total)"/></td>
+                                    </tr> 
+                                    
+                                </tbody>
+                            </table>
+
+                            <!-- tabla para pagos -->
+                            <table class="table table-sm o_main_table" style="width:100%;">
+                                <caption>Pagos</caption>
+
+                                <thead style="background-color: #6AA050">
+                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;"> 
+                                        <th name="th_fecha_pago" class="text-left" style="border: 1px solid gray;"><span>Fecha de Pago</span></th>
+                                        <th name="th_orden" class="text-left" style="border: 1px solid gray;"><span>Orden</span></th>
+                                        <th name="th_metodo_pago" class="text-left" style="border: 1px solid gray;"><span>Método de Pago</span></th>
+                                        <th name="th_importe" class="text-left" style="border: 1px solid gray;"><span>Importe</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="invoice_tbody">
+                                    <t t-set="total_pagos" t-value="0"/>
+                                    <t t-set="total_rembolso" t-value="0"/>
+                                    <t t-set="total_importe" t-value="0"/>
+                                    
+                                    <t t-foreach="o.corte_caja_pagos_ids" t-as="p">
+                                        <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                            
+                                                <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="p.fecha_pago"/>
+                                            </td>
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="p.orden"/>
+                                            </td>
+                                            <td class="text-left" style="border: 1px solid gray;">
+                                                <span t-field="p.metodo_pago"/>
+                                            </td>
+                                            <td class="text-right" style="border: 1px solid gray;">
+                                                <span t-field="p.importe"/>
+                                            </td>
+                                            
+                                
+                                        </tr>
+                                        <t t-set="total_importe" t-value="total_importe + p.importe"/>
+
+                                    </t>
+                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                        <td colspan="4" class="text-right" style="border: 1px solid gray;"><strong>Total Importe : </strong> <span t-esc="'{:20,.2f}'.format(total_importe)"/></td>
+                                    </tr> 
+                                    
+                                </tbody>
+                            </table>
+
+                            <table style="width:100%;">
+                                <caption>Total por método de pago</caption>
+
+                                <tr style="width:100%">
+                                    <td style="width:25%">
+                                        <table class="table table-sm o_main_table" style="width:100%;">
+                                            <thead style="background-color: #6AA050 ">
+                                                <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; color:black; font-size:medium;">
+                                                    <th name="th_tipo_recibo" class="text-left" style="border: 1px solid gray;"><span>Tipo Recibo</span></th>
+                                                    <th name="th_monto" class="text-right" style="border: 1px solid gray;"><span>Monto</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="invoice_tbody">
+                                                <t t-foreach="o.corte_caja_diario_cuenta_ids" t-as="c">
+                                                    <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                                        <td class="text-left" style="border: 1px solid gray;">
+                                                            <span t-field="c.cuenta"/>
+                                                        </td>
+                                                        <td class="text-right" style="border: 1px solid gray;">
+                                                            <span t-field="c.monto"/>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <tr style="font-family: Arial,Helvetica Neue,Helvetica,sans-serif; font-size:medium;">
+                                                    <td class="text-left" style="border: 1px solid gray;">
+                                                        <strong>Gran Total</strong>
+                                                    </td>
+                                                    <td class="text-right" style="border: 1px solid gray;">
+                                                        <span t-field="o.total_pagos"/>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <br />
+                            <br />
+
+                            <table width="100%" align="center">
+                                <tr>
+                                    <td class="text-center" style="padding: 0px 100px">
+                                        <p style="margin:0px; text-align: center; border-top: solid 1px;">Oficial de Caja</p>
+                                    </td>
+                                    <td class="text-center" style="padding: 0px 100px">
+                                        <p style="margin:0px; text-align: center; border-top: solid 1px;">Jefe de Tienda</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

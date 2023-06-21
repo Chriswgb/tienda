@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="poss_session_form_view_inherit" model="ir.ui.view">
+            <field name="name">poss.session.form.view.inherit</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form" />
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button
+                        name="obtener_datos"
+                        type="object"
+                        string="Generar Reporte"
+                        attrs="{'invisible':[('is_listo','=',True)]}"
+                    ></button>
+                </header>
+                <button name="action_stock_picking" position="replace">
+                    <button class="oe_stat_button" name="action_stock_picking" type="object" icon="fa-truck" attrs="{'invisible':[('picking_count', '=', 0)]}">
+                        <field name="picking_count" widget="statinfo" string="Entrega" attrs="{'invisible': [('failed_pickings', '!=', False)]}"/>
+                        <field name="picking_count" widget="statinfo" string="Entrega" class="text-danger" attrs="{'invisible': [('failed_pickings', '=', False)]}"/>
+                    </button>
+                </button>
+                <sheet position="inside">
+                    <field name="is_listo" invisible="1"/>
+                    <notebook>
+                        <page string="Corte de Caja">
+                            <field name="corte_caja_detail_wizard_ids" readonly="1">
+                                <tree>
+                                    <field name="no_documento"/>
+                                    <field name="fecha_doc"/>
+                                    <field name="rtn"/>
+                                    <field name="cliente"/>
+                                    <field name="tipo_doc"/>
+                                    <field name="montototal"/>
+                                </tree>
+                            </field>
+                            <footer>
+                                <group  class="oe_right">
+                                    
+                                    <field name="total_ventas"/>
+                                    <field name="total_devolucion"/>
+                                    <field name="total_pagos"/>
+                                </group>
+                            </footer>
+                        </page>
+                    </notebook>
+                </sheet>
+            </field>
+        </record>
+    </data>
+</odoo>

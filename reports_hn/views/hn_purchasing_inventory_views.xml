@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hn_purchasing_inventory_line_tree_view" model="ir.ui.view">
+        <field name="name">hn.purchasing.inventory.line.tree.view</field>
+        <field name="model">hn.purchasing.inventory.line</field>                     
+        <field name="arch" type="xml">
+            <tree>
+                <field name="currency_id" invisible="1"/>
+                <field name="product_id"/>
+                <field name="stock_actual" sum="total"/>
+                <field name="qty_purchase" sum="total"/>
+                <field name="qty_sale" sum="total"/>
+                <field name="partner_id"/>
+                <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
+                <field name="categ_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="hn_purchasing_inventory_line_action">
+        <field name="name">Reporte de inventario compras</field>
+        <field name="res_model">hn.purchasing.inventory.line</field>
+        <field name="view_mode">tree</field>
+        <field name="domain"> [('report_id', '=', active_id)]</field>
+    </record>
+
+	<record id="hn_purchasing_inventory_form_view" model="ir.ui.view">
+		<field name="name">hn.purchasing.inventory.form.view</field>
+		<field name="model">hn.purchasing.inventory</field>
+		<field name="arch" type="xml">
+            <form string="Reporte de inventario compras">
+                <header>
+                    <button name="get_data" type="object" string="Obtener información" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-bars"  type="action" name="%(hn_purchasing_inventory_line_action)d" string="Detalle"/>
+                    </div>
+                    <notebook>
+                        <page string="Inventario / Compras">
+                            <field name="line_ids" readonly="1">
+                                <tree>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="stock_actual" sum="total"/>
+                                    <field name="qty_purchase" sum="total"/>
+                                    <field name="qty_sale" sum="total"/>
+                                    <field name="partner_id"/>
+                                    <field name="price" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
+                                    <field name="categ_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="hn_purchasing_inventory_tree_view" model="ir.ui.view">
+		<field name="name">hn.purchasing.inventory.tree.view</field>
+		<field name="model">hn.purchasing.inventory</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="id"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="action_hn_purchasing_inventory" model="ir.actions.act_window">
+		<field name="name">Reporte de inventario compras</field>
+		<field name="res_model">hn.purchasing.inventory</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+</odoo>

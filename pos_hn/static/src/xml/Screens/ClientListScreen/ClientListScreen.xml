@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t  t-name="ClientListScreenInherit" t-inherit="point_of_sale.ClientListScreen" t-inherit-mode="extension" owl="1">
+
+        <xpath expr="//section[@class='subwindow list']/div[@class='subwindow-container']/div" position="replace">
+            
+            <div t-if="!state.detailIsShown" class="subwindow-container-fix scrollable-y">
+                <table class="client-list">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th t-if="!env.isMobile">Address</th>
+                            <th t-if="!env.isMobile">Nombre del cliente</th>
+                            <th t-if="!env.isMobile">RTN del cliente</th>
+                            <th t-if="!env.isMobile">RTN</th>
+                            <th t-if="!env.isMobile">Teléfono</th>
+                            <th t-if="env.isMobile">ZIP</th>
+                            <th class="client-line-email">Correo</th>
+                            <th class="client-line-last-column-placeholder oe_invisible"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="client-list-contents">
+                        <t t-foreach="clients" t-as="partner"
+                            t-key="partner.id">
+                            <ClientLine partner="partner"
+                                        selectedClient="state.selectedClient"
+                                        detailIsShown="state.detailIsShown"
+                                        t-on-click-client="clickClient" />
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            
+        </xpath>
+
+    </t>
+</templates>

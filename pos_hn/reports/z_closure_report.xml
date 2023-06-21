@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="paperformat_z_closure_report" model="report.paperformat">
+        <field name="name">Formato Cierre Z </field>
+        <field name="default" eval="True" />
+        <field name="format">Letter</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">35</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="z_closure_report" model="ir.actions.report">
+        <field name="name">Cierre Z</field>
+        <field name="model">z.closure</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">pos_hn.report_z_closure</field>
+        <field name="report_file">pos_hn.report_z_closure</field>
+        <!-- <field name="print_report_name">'%s-%s' %(object.name, time.strftime('%Y-%m-%d %H:%M'))</field> -->
+        <field name="paperformat_id" ref="pos_hn.paperformat_z_closure_report" />
+        <field name="binding_model_id" ref="model_z_closure"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

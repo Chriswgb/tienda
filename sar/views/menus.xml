@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- menu padre de facturacion -->
+	<menuitem 
+		id="sar_menu_root" 
+		name="SAR" 
+		sequence="1" 
+		web_icon="sar,static/description/icon.png"
+	/>
+
+	<!-- agregar menu en configuracion de SAR -->
+	<menuitem 
+		id="cai_menu_category" 
+		name="Configuración SAR" 
+		sequence="1" 
+		parent="account.menu_finance_configuration"
+	/>
+
+	<!-- menuitem de CAI -->
+	<menuitem 
+		id="account_retention_menu" 
+		name="CAI" 
+		sequence="1" 
+		parent="cai_menu_category" 
+		action="action_cai"
+	/>
+	
+    <!-- agregar menu en configuracion de retenciones -->
+	<menuitem 
+		id="account_retention_menu_category" 
+		name="Configuración de retenciones" 
+		sequence="4" 
+		parent="account.menu_finance_configuration"
+	/>
+    
+	<!-- menuitem de retenciones -->
+	<menuitem 
+		id="account_retention_menu" 
+		name="Retenciones" 
+		sequence="4" 
+		parent="account_retention_menu_category" 
+		action="account_retention_action"
+	/>
+
+    <!-- menuitem de comprobantes de retencion -->
+	<menuitem 
+		id="account_retention_menu_action" 
+		name="Comprobantes de retención" 
+		sequence="2" 
+		parent="account.menu_finance_payables"
+		action="action_move_in_refund_type_retention"
+	/>
+
+	<!-- menuitem de notas de debito -->
+	<menuitem 
+		id="account_debit_note_menu_action" 
+		name="Notas de débito" 
+		sequence="1" 
+		parent="account.menu_finance_receivables"
+		action="action_move_out_invoice_type_debit"
+	/>
+</odoo>
