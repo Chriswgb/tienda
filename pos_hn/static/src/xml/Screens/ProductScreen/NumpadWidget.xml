@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="NumpadWidgetInherit" t-inherit="point_of_sale.NumpadWidget" t-inherit-mode="extension">
+
+        <xpath expr="//div[@class='numpad']/button[@class='mode-button'][2]" position="attributes">
+            <attribute name="disabled">1</attribute>
+            <attribute name="style">border: 1px solid #999999;background-color: #cccccc;color: #666666;</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='numpad']/button[@class='mode-button'][3]" position="attributes">
+            <attribute name="disabled">1</attribute>
+            <attribute name="style">border: 1px solid #999999;background-color: #cccccc;color: #666666;</attribute>
+        </xpath>
+
+    </t>
+</templates>

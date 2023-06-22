@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="MotivoReembolsoPopup" owl="1">
+		<div role="dialog" class="modal-dialog">
+            <Draggable>
+                <div class="popup drag-handle">
+                    <header class="title">
+                        Motivo de Reembolso
+                    </header>
+                    <main class="body">
+                        <div class='div-container'>
+                            <div class="cash-move">
+                                <textarea name="motivo" t-ref="input-motivo" t-model="state.inputMotivo" placeholder="Motivo"></textarea>
+                                <br />
+                                <span t-if="state.inputHasError" class="error-message">
+                                    <t t-esc="errorMessage" />
+                                </span>
+                            </div>
+                        </div>
+                    </main>
+                    <footer class="footer">
+                    <!-- el metodo cancel ya lo trae por defecto la clase 'AbstractAwaitablePopup' -->
+                        <div class="button cancel" t-on-click="cancel">
+                            <t t-esc="props.cancelText" />
+                        </div>
+                        <div class="button confirm highlight"  t-on-click="getValue">
+                            <t t-esc="props.confirmText" />
+                        </div>
+                    </footer>
+			    </div>
+            </Draggable>
+		</div>
+	</t>
+
+</templates>
