@@ -39,7 +39,7 @@ class AccountInvoiceBIM(models.Model):
     
     excento = fields.Float(string="Exento", compute="sar", store=True)
     exonerado = fields.Float(string="Exonerado", compute="sar", store=True)
-    gravado =fields.Float(string="Gravado", compute="sar", store=True)
+    gravado =fields.Float(string="Gravado 15", compute="sar", store=True)
     impuesto =fields.Float(string="Impuesto 15", compute="sar", store=True)
     gravado_18 =fields.Float(string="Gravado 18", compute="sar", store=True)
-    impuesto_18 =fields.Float(string="Impuesto 15", compute="sar", store=True)
+    impuesto_18 =fields.Float(string="Impuesto 18", compute="sar", store=True)

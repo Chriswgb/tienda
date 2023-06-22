@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Heredo la vista de product template -->
+        <record model="ir.ui.view" id="product_normal_form_view_inherit">
+            <field name="name">product.normal.form.view.inherit</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="lst_price" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+        <!-- Heredo la vista de product template solo para los usuarios que tengan el permiso "Acceso a editar precio de venta de producto" -->
+        <record model="ir.ui.view" id="product_normal_form_view_inherit_edit_price_list">
+            <field name="name">product.normal.form.view.inherit.edit.price.list</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="restrictions_hn.product_normal_form_view_inherit"/>
+            <field name="groups_id" eval="[(4, ref('restrictions_hn.group_access_edit_price_list'))]"/>
+            <field name="arch" type="xml">
+                <field name="lst_price" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+        </record>
+        <!-- Heredo la vista de product template solo para los usuarios que tengan el permiso "Acceso a editar costo de producto" -->
+        <record model="ir.ui.view" id="product_normal_form_view_inherit_edit_standard_price">
+            <field name="name">product.normal.form.view.inherit.edit.standard.price</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="restrictions_hn.product_normal_form_view_inherit"/>
+            <field name="groups_id" eval="[(4, ref('restrictions_hn.group_access_edit_standard_cost'))]"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="invisible">0</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

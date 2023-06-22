@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_picking_form_restrictions_inherit">
+            <field name="name">view.picking.form.restrictions.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='%(stock.act_stock_return_picking)d']" position="attributes">
+                    <attribute name="groups">restrictions_hn.group_access_return_product_order</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_toggle_is_locked']" position="attributes">
+                    <attribute name="groups">restrictions_hn.group_access_return_product_order</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_scrap']" position="attributes">
+                    <attribute name="groups">restrictions_hn.group_access_return_product_order</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

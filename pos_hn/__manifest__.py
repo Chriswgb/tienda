@@ -37,8 +37,6 @@
             'pos_hn/static/src/xml/Popups/CardInformationPopup.xml',
             'pos_hn/static/src/xml/Popups/ChequeInformationPopup.xml',
             'pos_hn/static/src/xml/Popups/MotivoReembolsoPopup.xml',
-            'pos_hn/static/src/xml/Screens/ProductScreen/NumpadWidget.xml',
-            'pos_hn/static/src/xml/Screens/ProductScreen/ActionpadWidget.xml',
             'pos_hn/static/src/xml/Screens/ProductScreen/ControlButtons/EstadoCajaButton.xml',
         ],
         'point_of_sale.assets': [

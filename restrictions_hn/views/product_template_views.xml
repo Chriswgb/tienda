@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Heredo la vista tree de product template -->
+        <record model="ir.ui.view" id="product_template_product_tree_inherit">
+            <field name="name">product.template.product.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+            </field>
+        </record>
+        <!-- Heredo la vista form de product template -->
+        <record model="ir.ui.view" id="product_template_product_form_inherit">
+            <field name="name">product.template.product.form.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+                <field name="list_price" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </field>
+            </field>
+        </record>
+        <!-- Heredo la vista de product template solo para los usuarios que tengan el permiso "Acceso a editar precio de venta de producto" -->
+        <record model="ir.ui.view" id="product_template_product_form_inherit_edit_price_list">
+            <field name="name">product.template.product.form.inherit.edit.price.list</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="restrictions_hn.product_template_product_form_inherit"/>
+            <field name="groups_id" eval="[(4, ref('restrictions_hn.group_access_edit_price_list'))]"/>
+            <field name="arch" type="xml">
+                <field name="list_price" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                </field>
+            </field>
+        </record>
+
+        <!-- Heredo la vista tree de product template solo para los usuarios que tengan el permiso "Acceso a editar costo de producto" -->
+        <record model="ir.ui.view" id="product_template_product_tree_inherit_edit_standard_price">
+            <field name="name">product.template.product.tree.inherit.edit.standard.price</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="restrictions_hn.product_template_product_tree_inherit"/>
+            <field name="groups_id" eval="[(4, ref('restrictions_hn.group_access_edit_standard_cost'))]"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </field>
+            </field>
+        </record>
+        
+        <!-- Heredo la vista form de product template solo para los usuarios que tengan el permiso "Acceso a editar costo de producto" -->
+        <record model="ir.ui.view" id="product_template_product_form_inherit_edit_standard_price">
+            <field name="name">product.template.product.form.inherit.edit.standard.price</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="restrictions_hn.product_template_product_form_inherit"/>
+            <field name="groups_id" eval="[(4, ref('restrictions_hn.group_access_edit_standard_cost'))]"/>
+            <field name="arch" type="xml">
+                <field name="standard_price" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="invisible">0</attribute>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>
