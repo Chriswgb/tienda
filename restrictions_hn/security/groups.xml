@@ -32,6 +32,21 @@
         <field name="name">Acceso a reportes de contabilidad</field>
     </record>
 
+    <record id="group_access_view_finance_entries" model="res.groups">
+        <field name="category_id" ref="module_tienda_restrictions_sale"/>
+        <field name="name">Acceso a acciones de contabilidad</field>
+    </record>
+
+    <record id="group_access_view_finance_configuration" model="res.groups">
+        <field name="category_id" ref="module_tienda_restrictions_sale"/>
+        <field name="name">Acceso a configuración de contabilidad</field>
+    </record>
+
+    <record id="group_access_view_point_config_product" model="res.groups">
+        <field name="category_id" ref="module_tienda_restrictions_sale"/>
+        <field name="name">Acceso a configuración de punto de venta</field>
+    </record>
+
     <record id="group_access_sale_low_price" model="res.groups">
         <field name="category_id" ref="module_tienda_restrictions_sale"/>
         <field name="name">Acceso a vender por debajo del precio de venta establecido en la ficha del producto</field>
@@ -41,6 +56,14 @@
         <field name="category_id" ref="module_tienda_restrictions_sale"/>
         <field name="name">Acceso a botón restablecer a borrador factura</field>
     </record>
+
+    <record id="group_access_view_board_journal" model="res.groups">
+        <field name="category_id" ref="module_tienda_restrictions_sale"/>
+        <field name="name">Acceso a tablero de contabilidad</field>
+    </record>
+
+
+    
 
     <!-- Categoria para los permisos pertenecientes al modulo Restricciones tienda Inventario -->
 
@@ -68,6 +91,16 @@
     <record id="group_access_menu_setting" model="res.groups">
         <field name="category_id" ref="module_tienda_restrictions_stock"/>
         <field name="name">Acceso a menu de configuraciones</field>
+    </record>
+
+    <record id="group_access_view_buttoms" model="res.groups">
+        <field name="category_id" ref="module_tienda_restrictions_stock"/>
+        <field name="name">Acceso a botones de la ficha del producto</field>
+    </record>
+
+    <record id="group_access_view_stock_picking_type" model="res.groups">
+        <field name="category_id" ref="module_tienda_restrictions_stock"/>
+        <field name="name">Acceso a ver informacion general de inventario</field>
     </record>
 
     <record id="group_access_menu_operation" model="res.groups">

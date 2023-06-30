@@ -20,3 +20,10 @@ class SaleOrderInherit(models.Model):
 
     #agregamos un campo boolean para permitir crear facturas al credito
     allow_sale_low_price = fields.Boolean("Permitir facturar con precios por debajo del de la ficha de producto", tracking=True)
+
+    def _prepare_invoice(self, ):
+        invoice_vals = super(SaleOrderInherit, self)._prepare_invoice()
+        invoice_vals.update({
+            'allow_sale_low_price': self.allow_sale_low_price,
+        })
+        return invoice_vals

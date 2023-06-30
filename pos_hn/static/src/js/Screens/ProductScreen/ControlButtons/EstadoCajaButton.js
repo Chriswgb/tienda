@@ -24,7 +24,7 @@ odoo.define('point_of_sale.EstadoCajaButton', function(require) {
                 });
 
                 // luego imprimo el reporte pdf ya con los datos generedo en la funcion anterior
-                await this.env.pos.do_action('point_of_sale_update_community.report_corte_caja_session2', {
+                await this.env.pos.do_action('pos_hn.report_corte_caja_session2', {
                     additional_context: {
                         active_ids: [this.env.pos.config.current_session_id[0]],
                     },

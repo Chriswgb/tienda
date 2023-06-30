@@ -7,13 +7,19 @@
             <field name="model">product.product</field>
             <field name="inherit_id" ref="product.product_normal_form_view"/>
             <field name="arch" type="xml">
-                <field name="standard_price" position="attributes">
-                    <attribute name="readonly">1</attribute>
-                    <attribute name="invisible">1</attribute>
+                <field name="standard_price" position="replace">
+                    <div name="pricing_cost" invisible="1">
+                        <field name="standard_price" class="oe_inline" widget="monetary" options="{'currency_field': 'currency_id', 'field_digits': True}"/>
+                        <span class="ml-2"/><field name="tax_cost_string" readonly="1"/>
+                    </div>
                 </field>
 
                 <field name="lst_price" position="attributes">
                     <attribute name="readonly">1</attribute>
+                </field>
+
+                <field name="taxes_id" position="before">
+                    <field name="ganancia" widget="percentage" invisible="1"/>
                 </field>
             </field>
         </record>
@@ -36,8 +42,10 @@
             <field name="inherit_id" ref="restrictions_hn.product_normal_form_view_inherit"/>
             <field name="groups_id" eval="[(4, ref('restrictions_hn.group_access_edit_standard_cost'))]"/>
             <field name="arch" type="xml">
-                <field name="standard_price" position="attributes">
-                    <attribute name="readonly">0</attribute>
+                <div name="pricing_cost" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </div>
+                <field name="ganancia" position="attributes">
                     <attribute name="invisible">0</attribute>
                 </field>
             </field>

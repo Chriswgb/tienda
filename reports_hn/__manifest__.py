@@ -10,8 +10,8 @@
     'license': 'AGPL-3',
     'depends': ['base', 'account','stock','purchase'],
     'data': [
-        # 'security/groups.xml',
         'security/ir.model.access.csv',
+        'security/groups.xml',
         'views/hn_profit_per_sale_views.xml',
         'views/purchase_order_views.xml',
         'views/hn_purchasing_inventory_views.xml',
