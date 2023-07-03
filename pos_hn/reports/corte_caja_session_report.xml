@@ -22,10 +22,7 @@
                                     <td style="width:50%">
                                         <table>
                                             <tr align="left">
-                                                <img 
-                                                    t-att-src="image_data_uri(o.company_id.logo)"
-                                                    style="width:75%;margin-top:2%"
-                                                />
+                                                <img src='/web/binary/company_logo' alt="Logo"/>
                                             </tr>
                                         </table>
                                     </td>
