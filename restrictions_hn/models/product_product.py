@@ -34,3 +34,25 @@ class ProductProductInherit(models.Model):
         else:
             tax_cost_string = " "
         return tax_cost_string
+
+    #sobreecribimos la funcion create
+    @api.model
+    def create(self, vals):
+
+        vals["default_code"] = ""
+        #verificamos si el campo del codigo del producto esta vacio
+        if not vals["default_code"]:
+            
+            #consultamos el objeto que contiene las configuraciones del modulo de inventario
+            product_sequence_id = int(self.env['ir.config_parameter'].sudo().get_param('res_config_settings.product_sequence_id'))
+
+            #verificacmos que se haya establecido una secuencia para los productos
+            if product_sequence_id:
+                # asignamos el codido del producto desde la secuencia configurada
+                vals["default_code"] = self.env["ir.sequence"].sudo().search([('id', '=', product_sequence_id)]).next_by_id()
+            else:
+                raise UserError(("Debe establecer la secuencia de códigos de producto en el apartado de ajustes en el módulo de inventario."))
+
+        res = super(ProductProductInherit, self).create(vals)
+
+        return res

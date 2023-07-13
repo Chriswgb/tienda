@@ -9,7 +9,10 @@ class ProductTemplateInherit(models.Model):
     def _get_ganancia(self):
         for rec in self:
             diferencia = rec.list_price - rec.standard_price
-            rec.ganancia = diferencia / rec.standard_price
+            if rec.standard_price > 0:
+                rec.ganancia = diferencia / rec.standard_price
+            else:
+                rec.ganancia = diferencia / 1
 
     ganancia = fields.Float(string="Ganancia(%)", compute="_get_ganancia")
     tax_cost_string = fields.Char(compute='_compute_tax_cost_string')

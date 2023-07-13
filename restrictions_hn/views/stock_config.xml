@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="stock_config_inherit_view">
+      <field name="name">stock_config_inherit_view</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+      <field name="arch" type="xml">
+        <div 
+          id="annual_inventory_date"
+          position="after"
+        >
+            <div class="col-12 col-lg-6 o_setting_box" id="stock_inventory_sequence" groups="stock.group_stock_manager">
+              <div class="o_setting_right_pane">
+                  <label for="product_sequence_id" string="Secuencia para el código del producto"/>
+                  <div class="content-group">
+                    <field name="product_sequence_id" class="o_light_label"/>
+                  </div>
+              </div>
+          </div>
+        </div> 
+      </field>
+    </record>
+
+</odoo>
