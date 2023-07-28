@@ -84,7 +84,10 @@ class ProfitPerSale(models.TransientModel):
             ganancia = subtotal - costo
             total_costo += costo
             total_ganancia += ganancia
-            ganancia_porcentaje = ganancia / costo
+            if costo > 0:
+                ganancia_porcentaje = ganancia / costo
+            else:
+                ganancia_porcentaje = ganancia / 1
             vals={
                 'date':invoice['fecha_documento'],
                 'invoice':invoice['num_documento'],
