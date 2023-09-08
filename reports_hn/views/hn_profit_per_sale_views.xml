@@ -20,6 +20,8 @@
                 <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
                 <field name="cost_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
                 <field name="ganancia_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
+                <field name="cost_total_isv" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
+                <field name="ganancia_total_isv" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
                 <field name="ganancia_percentage" widget="percentage"/>
             </tree>
         </field>
@@ -76,6 +78,8 @@
                                     <field name="amount_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
                                     <field name="cost_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
                                     <field name="ganancia_total" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
+                                    <field name="cost_total_isv" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
+                                    <field name="ganancia_total_isv" widget="monetary" options="{'currency_field': 'currency_id'}" sum="total"/>
                                     <field name="ganancia_percentage" widget="percentage"/>
                                 </tree>
                             </field>

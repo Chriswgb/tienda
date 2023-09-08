@@ -62,26 +62,39 @@ class ProfitPerSale(models.TransientModel):
             descuento = 0
             costo = 0
             ganancia = 0
+            costo_isv = 0
+            ganancia_isv = 0
             ganancia_porcentaje = 0
             # Recorro las lineas de factura
             for line in invoice_lines:
+                costo_line = 0
+                tax = False
                 # si el move_id sea igual a id_factura va a comparar  la etiqueta del tipo de impuesto y hacer los calculos correspondientes
                 if line['move_id'] ==invoice['id_factura']:
                     if line['description']=='Exento':
                         exento= exento+line['price_subtotal']
+                        costo_line = 0
                     if line['description']=='Exonerado':
                         exonerado=exonerado+line['price_subtotal']
+                        costo_line = 0
                     if line['description']=='ISV por Pagar':
+                        tax = True
                         grabado_quince=grabado_quince+line['price_subtotal']
                         impuesto=impuesto+(line['price_total'] - line['price_subtotal'])
+                        costo_line = (line['price_total'] - line['price_subtotal'])
                     if line['discount'] > 0:
                         descuento = descuento + (line['quantity'] * (line['price_unit'] * (line['discount']/100)))
                     if line['product_id']:
                         product = self.env['product.product'].browse(int(line['product_id']))
                         costo += (line['quantity'] * product.standard_price)
+                        if tax == True:
+                            costo_isv += (line['quantity'] * (product.standard_price * 1.15))
+                        else:
+                            costo_isv += (line['quantity'] * product.standard_price)
                 
             subtotal = exento + exonerado + grabado_quince
             ganancia = subtotal - costo
+            ganancia_isv = invoice['monto_total'] - costo_isv
             total_costo += costo
             total_ganancia += ganancia
             if costo > 0:
@@ -103,6 +116,8 @@ class ProfitPerSale(models.TransientModel):
                 'sub_total':subtotal,
                 'cost_total':costo,
                 'ganancia_total':ganancia,
+                'cost_total_isv':costo_isv,
+                'ganancia_total_isv':ganancia_isv,
                 'ganancia_percentage':ganancia_porcentaje,
                 'report_id':self.id
             }
@@ -133,5 +148,7 @@ class ProfitPerSale(models.TransientModel):
     amount_total = fields.Float(string="Monto Total")
     cost_total = fields.Float(string="Costo de Venta Total sin ISV")
     ganancia_total = fields.Float(string="Ganancia Total sin ISV")
+    cost_total_isv = fields.Float(string="Costo de Venta Total con ISV")
+    ganancia_total_isv = fields.Float(string="Ganancia Total con ISV")
     ganancia_percentage = fields.Float(string="Ganancia %")
     report_id = fields.Many2one(string="Reporte", comodel_name="hn.profit.per.sale")
