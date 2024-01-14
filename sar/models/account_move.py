@@ -71,8 +71,12 @@ class AccountMove(models.Model):
                         if  inv.invoice_date > cai.expiration_date:
                             raise ValidationError(_('La fecha de factura es mayor que la fecha de expiración del CAI'))
                         
-                        if (cai.sequence_id.number_next_actual - 1) == cai.valor_final:
+                        if (cai.sequence_id.number_next_actual - 1) > (cai.valor_final - 1):
                             raise ValidationError(_('Ya llego al valor final de su rango de facturación, solicite uno nuevo'))
+
+                        # Cambio de estado de a terminado
+                        if (cai.sequence_id.number_next_actual + 1) > cai.valor_final:
+                            cai.write({'state':'done'})
                         
                         if not inv.cai_create:
                             new_name = cai.sequence_id.with_context(ir_sequence_date=inv.invoice_date).next_by_id()
@@ -98,39 +102,7 @@ class AccountMove(models.Model):
                     else:
                         raise ValidationError(_('No existe ningún CAI en proceso'))
                 
-                    # funciones para verificar si el cai ya esta en el limite de fecha y de rango de secuencia
-                    self.verificar_porcentaje_cai(cai, cai.usados)
-                    self.verificar_fecha_terminacion_cai(cai)
-                
         return res
-
-    
-    def verificar_porcentaje_cai(self, cai, usados):
-        # recupero y calculo el valor actual en el que va la secuencia
-        numerador = usados + 1
-        denominador = (cai.valor_final - cai.valor_inicial) + 1
-
-        if (cai.sequence_id.number_next_actual) -1 == cai.valor_final:
-            porcentaje = 100
-        else:
-            if denominador > 0:
-                porcentaje =  (numerador / denominador) * 100
-            else:
-                porcentaje = 0
-
-        if round(porcentaje) >= 80:
-            if cai.alerta_porcentaje_enviada != True:
-                cai.enviar_correo_alerta(cai, "porcentaje")
-
-
-    def verificar_fecha_terminacion_cai(self, cai):
-        fecha_limite = cai.expiration_date - timedelta(days=10)
-        hoy = datetime.now().strftime('%Y-%m-%d')
-
-        if str(fecha_limite) == str(hoy):
-            if cai.alerta_porcentaje_enviada != True:
-                cai.enviar_correo_alerta(cai, "fecha")
-
     
     @api.depends('amount_total')
     def get_totalt(self):

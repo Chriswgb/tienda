@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="currency_id" invisible="1"/>
+                <field name="shop"/>
                 <field name="date"/>
                 <field name="invoice"/>
                 <field name="cai"/>
@@ -56,7 +57,10 @@
                     </group>
                     <group>
                         <group>
-                            <field name="ganancia_percentage" widget="percentage"/>
+                            <field name="journal_id" options="{'no_create':True}"/>
+                        </group>
+                        <group>
+                            <field name="ganancia_percentage" widget="percentage" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -64,6 +68,7 @@
                             <field name="line_ids" readonly="1">
                                 <tree>
                                     <field name="currency_id" invisible="1"/>
+                                    <field name="shop"/>
                                     <field name="date"/>
                                     <field name="invoice"/>
                                     <field name="cai"/>

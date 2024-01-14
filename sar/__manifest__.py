@@ -21,7 +21,7 @@
         'views/res_company.xml',
         'widzard/account_move_retention_views.xml',
         'reports/invoice_report.xml',
-        'reports/report_invoice_document.xml',
+        # 'reports/report_invoice_document.xml',
         'views/menus.xml'
     ],
    
