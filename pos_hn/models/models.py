@@ -112,3 +112,7 @@ class dev_pos_order(models.Model):
 		self.ensure_one ()
 		return self.account_move.partner_id.final_consumer
 	
+	def fetch_journal_street(self):
+		self.ensure_one ()
+		return self.account_move.journal_id.street
+	

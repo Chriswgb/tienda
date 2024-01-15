@@ -7,11 +7,14 @@
         <field name="arch" type="xml">
             <page name="bank_account" position="inside">
                 <group name="sar" string="SAR">
-                    <group col="2">
-                        <field name="cai_ventas" options="{'no_create':True}"/>
-                        <field name="cai_nota_credito" options="{'no_create':True}"/>
-                        <field name="cai_nota_debito" options="{'no_create':True}"/>
-                       <field name="cai_retencion" options="{'no_create':True}"/>
+                    <group>
+                        <field name="cai_ventas" attrs="{'invisible':[('type','!=','sale')]}" options="{'no_create':True}"/>
+                        <field name="cai_nota_credito" attrs="{'invisible':[('type','!=','sale')]}" options="{'no_create':True}"/>
+                        <field name="cai_nota_debito" attrs="{'invisible':[('type','!=','sale')]}" options="{'no_create':True}"/>
+                       <field name="cai_retencion" attrs="{'invisible':[('type','!=','purchase')]}" options="{'no_create':True}"/>
+                    </group>
+                    <group>
+                        <field name="street" attrs="{'invisible':[('type','!=','sale')]}"/>
                     </group>
                 </group>
             </page>

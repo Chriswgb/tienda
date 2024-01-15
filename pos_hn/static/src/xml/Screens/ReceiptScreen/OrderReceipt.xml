@@ -13,7 +13,10 @@
                     <div><t t-esc="receipt.street"/>, <t t-esc="receipt.street2"/></div>
                 </t>
                 <t t-if="receipt.city">
-                    <div>Local #1, <t t-esc="receipt.city"/>, <t t-esc="receipt.state_id"/></div>
+                    <div><t t-esc="receipt.city"/>, <t t-esc="receipt.state_id"/></div>
+                </t>
+                <t t-if="receipt.journal_street">
+                    <div><t t-esc="receipt.journal_street"/></div>
                 </t>
                 <t t-if="receipt.rtn">
                     <div>R.T.N:  <t t-esc="receipt.rtn"/></div>

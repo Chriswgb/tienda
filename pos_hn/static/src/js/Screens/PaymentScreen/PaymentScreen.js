@@ -128,6 +128,7 @@ odoo.define('.PaymentScreenWidget', function(require){
             result.gravado18 = this.getGravado18();
             result.impuesto18 = this.getImpuesto18();
             result.rtn2 = this.getRtn2();
+            result.journal_street = this.getJournalStreet();
 
             return result;
         },
@@ -303,6 +304,14 @@ odoo.define('.PaymentScreenWidget', function(require){
 
         getImpuesto18: function () {
             return this.impuesto18;
+        },
+
+        setJournalStreet: function (journal_street) {
+            this.journal_street = journal_street;
+        },
+
+        getJournalStreet: function () {
+            return this.journal_street;
         },
 	});
 
@@ -636,6 +645,16 @@ odoo.define('.PaymentScreenWidget', function(require){
                         }).then(function (impuesto18) {
                             if (impuesto18) {
                                 self.currentOrder.setImpuesto18(impuesto18);
+                            }
+                        });
+
+                        await self.rpc({
+                            model: 'pos.order',
+                            method: 'fetch_journal_street',
+                            args: [syncedOrderBackendIds[0]],
+                        }).then(function (journal_street) {
+                            if (journal_street) {
+                                self.currentOrder.setJournalStreet(journal_street)
                             }
                         });
 
